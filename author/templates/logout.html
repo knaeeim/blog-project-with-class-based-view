@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h1 class="text-center py-2">User {{type}}</h1>
+<form method="post" action="{% url 'logout' %}" class="m-auto" style="width:50%">
+    {% csrf_token %}
+    <div class="d-flex justify-content-center align-items-center">
+        <button class="btn bg-primary text-white mb-5" type="submit">Test Logout </button>
+    </div>
+</form>
+{% endblock %}

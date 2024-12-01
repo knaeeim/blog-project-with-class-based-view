@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="d-flex flex-wrap">
+  <div class="col-2 px-5 py-5">
+    {% for cat in categories %}
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="categories" id="{{cat.id}}">
+        <label class="form-check-label" for="{{cat.id}}">
+          <a href="{% url 'category_wise_post' cat.slug %}" class="text-decoration-none text-dark">{{cat.name}}</a>
+        </label>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="col-10 mb-5">
+
+    <h1 class="text-center mt-4"> Authors' Thoughts </h1>
+    <h3 class="text-center"> {{ data | length }} results found </h3>
+
+    <div class="mt-5 px-2 d-flex flex-wrap gap-5">
+      {% for post in data %}
+        <div class="col-sm-3 mb-3 mb-sm-0 col-lg-3">
+          <div class="card p-2 bg-primary-subtle">
+            {% if post.image %}
+                <img src="{{ post.image.url }}" class="card-img-top" alt="...">
+            {% else %}
+                <img src="/static/default_image.jpg" class="card-img-top" alt="Default Image">
+            {% endif %}
+            <div class="card-body">
+              <h4 class="card-title"><a href="{% url 'details_post' post.id %}" class="text-decoration-none text-dark"> {{post.title|truncatewords:6}} </a> </h4>
+              <p class="card-text">
+                {{post.content|truncatewords:10}}
+              </p>
+              <p>Author : {{post.author.first_name}} {{post.author.last_name}}</p>
+              <p>Category : 
+                {% for cat in post.category.all %}
+                  <span class="badge bg-primary">{{cat.name}}</span>
+                {% endfor %}
+              </p>
+            </div>
+          </div>
+      </div>
+      {% empty %}
+      <h1 class="text-center"> "Currently, we don't have any authors' thoughts. Our authors are thinking about what to write next." </h1>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
